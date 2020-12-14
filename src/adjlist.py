@@ -112,6 +112,17 @@ class AdjacencyList:
         is a member, its info-field is updated based on `info`.
         Returns an adjacency list head.
         '''
+
+        if self.is_empty():
+            self.head().__init__(name, info)
+        elif ord(name) < ord(self.head().name()):
+            tempName = self.head().name()
+            tempInfo = self.head().info()
+            self.head().set_name(name)
+            self.tail().add_node(tempName, tempInfo)
+        else:
+            self.tail().add_node(name, info)
+     
         return self.head()
 
     def delete_node(self, name):
@@ -144,8 +155,10 @@ class AdjacencyList:
         '''
         Returns the number of nodes.
         '''
-        log.info("TODO: node_cardinality()")
-        return 0
+        if self.is_empty():
+            return 0
+        else:
+            return 1 + self.tail().node_cardinality()
 
     ###
     # Edge operations
