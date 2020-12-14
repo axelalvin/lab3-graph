@@ -111,7 +111,16 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        log.info("TODO: add_node()")
+        if self.is_empty():
+            self.head().__init__(name, info)
+        elif ord(name) < ord(self.head().name()):
+            tempName = self.head().name()
+            tempInfo = self.head().info()
+            self.head().set_name(name)
+            self.tail().add_node(tempName, tempInfo)
+        else:
+            self.tail().add_node(name, info)
+        
         return self.head()
 
     def delete_node(self, name):
