@@ -1,0 +1,7 @@
+1. Adj.list:
+	1. AdjacencyList.{add_node,node_cardinality}
+	2. AdjacencyList._add_edge, Edge.add - note: if you run in debug mode, you
+	will get all edges printed when selecting 'v: view' in the menu.
+	3. AdjacencyList.find_edge, Edge.find
+2. Algoritms
+3.Tests
