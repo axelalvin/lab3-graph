@@ -15,21 +15,23 @@ log = logging.getLogger(__name__)
 
 from math import inf
 
+
 class AdjacencyList:
     '''
     A linked-list implementation of an adjacency list that keeps its nodes and
     edges lexicographically ordered at all times.
     '''
+
     def __init__(self, name=None, info=None):
         '''
         Initializes a new adjacency list.  It is considered empty if no head
         node is provided.  Optionally, a node can also have associated info.
         '''
-        self._name = name # head node name
-        self._info = info # head node info
+        self._name = name  # head node name
+        self._info = info  # head node info
         if not self.head().is_empty():
-            self._tail = AdjacencyList() # empty tail
-            self._edges = Edge() # empty list of edges
+            self._tail = AdjacencyList()  # empty tail
+            self._edges = Edge()  # empty list of edges
 
     def is_empty(self):
         '''
@@ -108,10 +110,8 @@ class AdjacencyList:
         '''
         Adds a new node named `name` in lexicographical order.  If node `name`
         is a member, its info-field is updated based on `info`.
-
         Returns an adjacency list head.
         '''
-        log.info("TODO: add_node()")
         return self.head()
 
     def delete_node(self, name):
@@ -120,8 +120,15 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        log.info("TODO: delete_node()")
-        return self.head()
+
+        if self.is_empty() or not self.find_node(name):
+            return self.head()
+
+        elif self.name() is not name:
+            return self.cons(self.tail().delete_node(name))
+
+        else:
+            return self.tail()
 
     def find_node(self, name):
         '''
@@ -211,7 +218,7 @@ class AdjacencyList:
         '''
         Returns this adjacency list as an adjacency matrix.  For example,
         consider the following adjacency list where all edges have weight=1.
-        
+
         a: a->b->c
         |
         v
@@ -243,7 +250,7 @@ class AdjacencyList:
 
         # In case you'd like to create an inf-initialized n x n matrix
         n = self.node_cardinality()
-        matrix = [ [inf]*n for i in range(n) ]
+        matrix = [[inf] * n for i in range(n)]
         log.info("TODO: adjacency_matrix()")
         return matrix
 
@@ -253,7 +260,7 @@ class AdjacencyList:
         '''
         head, node_names = self.head(), []
         while not head.is_empty():
-            node_names += [ head.name() ]
+            node_names += [head.name()]
             head = head.tail()
         return node_names
 
@@ -266,27 +273,29 @@ class AdjacencyList:
         return self.head().edges().list(self.head().name()) +\
             self.tail().list_edges()
 
+
 class Edge:
     '''
     A linked-list implementation of edges that originate from an implicit source
     node.  Each edge has a weight and goes towards a given destination node.
     '''
+
     def __init__(self, dst=None, weight=1):
         '''
         Initializes a new edge sequence.  It is considered empty if no head edge
         is provided, i.e., dst is set to None.
         '''
-        self._dst = dst # where is this edge's destination
-        self._weight = weight # what is the weight of this edge
+        self._dst = dst  # where is this edge's destination
+        self._weight = weight  # what is the weight of this edge
         if not self.head().is_empty():
-            self._tail= Edge() # empty edge tail
+            self._tail = Edge()  # empty edge tail
 
     def is_empty(self):
         '''
         Returns true if this edge is empty.
         '''
         return self._dst is None
-    
+
     def head(self):
         '''
         Returns the head of this edge.
@@ -335,7 +344,7 @@ class Edge:
         '''
         self._weight = weight
         return self.head()
-    
+
     ###
     # Operations
     ###
@@ -381,6 +390,7 @@ class Edge:
         if self.head().is_empty():
             return []
         return [(src, self.head().dst(), self.weight())] + self.tail().list(src)
+
 
 if __name__ == "__main__":
     log.critical("module contains no main method")
