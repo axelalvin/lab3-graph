@@ -228,7 +228,7 @@ class AdjacencyList:
         if self.is_empty():
             return 0
         
-        return self.head().edges().cardinality() + self.tail().edges().cardinality()
+        return self.head().edges().cardinality() + self.tail().edge_cardinality()
 
     def self_loops(self):
         '''
