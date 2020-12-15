@@ -184,8 +184,13 @@ class AdjacencyList:
 
         Pre: `dst` is a member of this adjacency list.
         '''
-        log.info("TODO: _add_edge()")
-        return self.head()
+        if not self.find_node(dst):
+            return self.head()
+        else:
+            if src == self.head().name():
+                return self.head().edges().__init__(dst, weight)
+            else:
+                return self.tail()._add_edge(src, dst, weight)
 
     def delete_edge(self, src, dst):
         '''
