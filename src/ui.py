@@ -7,14 +7,15 @@ log = logging.getLogger(__name__)
 
 from math import inf
 from adjlist import AdjacencyList
-from algorithm import dijkstra,prim,warshall,floyd
+from algorithm import dijkstra, prim, warshall, floyd
+
 
 class TerminalUI:
     def __init__(self, mode="directed"):
         '''
         Selects (un)directed graph mode.
         '''
-        self._mode = mode if mode=="directed" else "undirected"
+        self._mode = mode if mode == "directed" else "undirected"
         self._adjlist = AdjacencyList()
         log.info("running in mode: {}".format(self._mode))
 
@@ -28,7 +29,7 @@ class TerminalUI:
             if err is not None:
                 self.display_error(err)
                 continue
-            
+
             if opt == "m":
                 self.display_menu()
             elif opt == "v":
@@ -110,7 +111,7 @@ class TerminalUI:
         Returns a list of symbols that the menu defined as valid hotkeys.
         '''
         opts = self.menu_options()
-        return [ o.split(":")[0] for o in opts if len(o.split(":")[0]) == 1 ]
+        return [o.split(":")[0] for o in opts if len(o.split(":")[0]) == 1]
 
     def get_choice(self):
         '''
@@ -161,7 +162,7 @@ class TerminalUI:
         weight, err = self.get_int(message)
         if err is not None:
             return None, err
-        if weight<low or weight>high:
+        if weight < low or weight > high:
             return None, "invalid input (weight must be in [{},{}])".format(low, high)
         return weight, None
 
@@ -224,7 +225,7 @@ class TerminalUI:
 
         self.adj_list = self._adjlist.add_edge(from_node, to_node, weight)
         if self._mode == "undirected":
-            self._adjlist = self._adjlist.add_edge(to_node, from_node, weight)
+            self.adj_list = self.adj_list.add_edge(to_node, from_node, weight)
 
     def delete_edge(self):
         '''
@@ -241,7 +242,8 @@ class TerminalUI:
             return
 
         if not self._adjlist.find_edge(from_node, to_node):
-            self.display_error("edge ({},{}) is non-member".format(from_node, to_node))
+            self.display_error(
+                "edge ({},{}) is non-member".format(from_node, to_node))
             return
 
         self._adjlist = self._adjlist.delete_edge(from_node, to_node)
@@ -288,7 +290,7 @@ class TerminalUI:
         if self._adjlist.is_empty():
             self.display_error("graph is empty")
             return
-        
+
         nodes = self._adjlist.list_nodes()
         self.display_matrix_head(nodes)
         self.display_matrix_data(nodes, warshall(self._adjlist))
@@ -300,7 +302,7 @@ class TerminalUI:
         if self._adjlist.is_empty():
             self.display_error("graph is empty")
             return
-        
+
         nodes = self._adjlist.list_nodes()
         self.display_matrix_head(nodes)
         self.display_matrix_data(nodes, floyd(self._adjlist))
@@ -346,9 +348,9 @@ class TerminalUI:
             ("closest", closest, None),
         ])
         self.display_mst_sum(lowcost)
-    
+
     def display_mst_sum(self, lowcost):
-        mst_sum = sum([ v for v in lowcost if v is not None and v!=inf ])
+        mst_sum = sum([v for v in lowcost if v is not None and v != inf])
         print("\tMST sum: {}\n".format(mst_sum))
 
     def display_empty(self):
@@ -370,13 +372,13 @@ class TerminalUI:
         print("\n {: ^8}#".format(""), end="")
         for node in nodes:
             print(" {: ^3} ".format(node), end="")
-        print("\n ========#" + "="*5*len(nodes))
+        print("\n ========#" + "=" * 5 * len(nodes))
 
     def display_sequence_data(self, data):
-        for (name,sequence,star_val) in data:
+        for (name, sequence, star_val) in data:
             print(" {: >8}#".format(name), end="")
             for v in sequence:
-                print(" {: ^3} ".format("*" if v==star_val else v), end="")
+                print(" {: ^3} ".format("*" if v == star_val else v), end="")
             print("")
         print("")
 
@@ -384,13 +386,13 @@ class TerminalUI:
         print("\n {: ^3}|".format(""), end="")
         for node in nodes:
             print(" {: ^3} ".format(node), end="")
-        print("\n----+" + "-"*5*len(nodes))
+        print("\n----+" + "-" * 5 * len(nodes))
 
     def display_matrix_data(self, nodes, matrix):
-        for name,row in zip(nodes, matrix):
+        for name, row in zip(nodes, matrix):
             print(" {: >3}|".format(name), end="")
             for col in row:
-                print(" {: ^3} ".format("*" if col==inf else col), end="")
+                print(" {: ^3} ".format("*" if col == inf else col), end="")
             print("")
         print("")
 
@@ -399,13 +401,15 @@ class TerminalUI:
         edge_cardinality = self._adjlist.edge_cardinality()
         if self._mode == "undirected":
             self_loops = self._adjlist.self_loops()
-            edge_cardinality = int((edge_cardinality-self_loops)/2 + self_loops)
+            edge_cardinality = int(
+                (edge_cardinality - self_loops) / 2 + self_loops)
         print("node cardinality: {}".format(node_cardinality))
         print("edge cardinality: {}".format(edge_cardinality))
         print("")
 
     def display_error(self, err):
         print("error> {}".format(err))
+
 
 if __name__ == "__main__":
     logging.critical("ui contains no main module")
