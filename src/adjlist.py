@@ -214,15 +214,21 @@ class AdjacencyList:
         '''
         Returns True if there's an edge from node `src` to node `dst`.
         '''
-        log.info("TODO: find_edge()")
-        return False
+        if self.is_empty():
+            return False
+        if src == self.head().name():
+            return self.head().edges().find(dst)
+        else:
+            return self.tail().find_edge(src, dst)
 
     def edge_cardinality(self):
         '''
         Returns the number of edges.
         '''
-        log.info("TODO: edge_cardinality()")
-        return 0
+        if self.is_empty():
+            return 0
+        
+        return self.head().edges().cardinality() + self.tail().edges().cardinality()
 
     def self_loops(self):
         '''
@@ -389,15 +395,20 @@ class Edge:
         '''
         Returns True if there is an edge towards `dst` in this sequence.
         '''
-        log.info("TODO: edge find()")
-        return False
+        if self.head().is_empty():
+            return False
+        if dst == self.head().dst():
+            return True
+        else:
+            return self.tail().find(dst)
 
     def cardinality(self):
         '''
         Returns the number of edges in this sequence.
         '''
-        log.info("TODO: edge cardinality()")
-        return 0
+        if self.head().is_empty():
+            return 0
+        return 1 + self.tail().cardinality()
 
     def list(self, src):
         '''
