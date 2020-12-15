@@ -188,7 +188,7 @@ class AdjacencyList:
             return self.head()
         else:
             if src == self.head().name():
-                return self.head().edges().__init__(dst, weight)
+                return self.head().edges().add(dst, weight)
             else:
                 return self.tail()._add_edge(src, dst, weight)
 
@@ -379,7 +379,11 @@ class Edge:
 
         Returns an edge head.
         '''
-        log.info("TODO: add()")
+        if self.is_empty():
+            self.head().__init__(dst, weight)
+        else:
+            self.tail().add(dst, weight)
+     
         return self.head()
 
     def delete(self, dst):
