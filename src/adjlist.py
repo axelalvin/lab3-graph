@@ -456,13 +456,11 @@ class Edge:
         '''
         if self.is_empty() or not self.find(dst):
             return self.head()
-        if dst is self.head().dst():
-            self.head().set_dst(None)
+        if dst is not self.head().dst():
+            return self.cons(self.tail().delete(dst))
         else:
-            self.tail().delete(dst)
-
-        return self.head()
-
+            return self.tail()
+        
     def find(self, dst):
         '''
         Returns True if there is an edge towards `dst` in this sequence.
