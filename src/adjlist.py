@@ -416,7 +416,7 @@ class Edge:
         if self.is_empty() or not self.find(dst):
             return self.head()
         if dst is self.head().dst():
-            self.head().set_dst(None)
+            self._dst == None
         else:
             self.tail().delete(dst)
         
