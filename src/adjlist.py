@@ -440,12 +440,11 @@ class Edge:
         '''
         if self.is_empty() or not self.find(dst):
             return self.head()
-        if dst is self.head().dst():
-            self._dst == None
+        if dst is not self.head().dst():
+            return self.cons(self.tail().delete(dst))
         else:
-            self.tail().delete(dst)
+            return self.tail()
         
-        return self.head()
         
     def find(self, dst):
         '''
