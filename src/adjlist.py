@@ -112,6 +112,10 @@ class AdjacencyList:
         is a member, its info-field is updated based on `info`.
         Returns an adjacency list head.
         '''
+        #todo: implement a way to add node before existing nodes
+        #without that node inheriting all info and edge-functionalities
+        #right now new node is added to the back of list
+        
         if self.find_node(name):
             if name is self.head().name():
                 self.head().set_info(info)
