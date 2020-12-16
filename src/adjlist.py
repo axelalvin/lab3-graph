@@ -322,22 +322,6 @@ class AdjacencyList:
             nodeIndex += 1
             node = node.tail()
 
-        """
-        listorn fungerar inte som jag tror at dem gör
-        list_nodes retunerar stängar
-        list_nodes retunerar en lista med strängar också
-        nodeIndex = 0
-        node = self.head()
-        print(node.list_edges())
-        while not node.is_empty():
-
-            for edge in node.list_edges():
-                edgeIndex = self._findIndex(edge.dst(), n)
-                matrix[nodeIndex][edgeIndex] = edge.weight()
-
-            nodeIndex += 1
-            node = node.tail()
-        """
         return matrix
 
     def list_nodes(self):
@@ -460,7 +444,7 @@ class Edge:
             return self.cons(self.tail().delete(dst))
         else:
             return self.tail()
-        
+
     def find(self, dst):
         '''
         Returns True if there is an edge towards `dst` in this sequence.
