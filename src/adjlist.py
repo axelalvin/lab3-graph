@@ -122,7 +122,7 @@ class AdjacencyList:
             self.tail().add_node(tempName, tempInfo)
         else:
             self.tail().add_node(name, info)
-     
+
         return self.head()
 
     def delete_node(self, name):
@@ -227,7 +227,7 @@ class AdjacencyList:
         '''
         if self.is_empty():
             return 0
-        
+
         return self.head().edges().cardinality() + self.tail().edge_cardinality()
 
     def self_loops(self):
@@ -237,6 +237,11 @@ class AdjacencyList:
         '''
         log.info("TODO: self_loops()")
         return 0
+
+    def _findIndex(self, des, size):
+        for i in range(size):
+            if chr(ord("a") + i) == des:
+                return i
 
     def adjacency_matrix(self):
         '''
@@ -275,7 +280,27 @@ class AdjacencyList:
         # In case you'd like to create an inf-initialized n x n matrix
         n = self.node_cardinality()
         matrix = [[inf] * n for i in range(n)]
-        log.info("TODO: adjacency_matrix()")
+
+        nodeIndex = 0
+        node = self.head()
+
+        while not node.is_empty():
+
+            edge = node.edges()
+
+            while not edge.is_empty():
+
+                edgeIndex = self._findIndex(edge.dst(), n)
+
+                matrix[nodeIndex][edgeIndex] = edge.weight()
+
+                edgeIndex += 1
+
+                edge = edge.tail()
+
+            nodeIndex += 1
+            node = node.tail()
+
         return matrix
 
     def list_nodes(self):
@@ -383,7 +408,7 @@ class Edge:
             self.head().__init__(dst, weight)
         else:
             self.tail().add(dst, weight)
-     
+
         return self.head()
 
     def delete(self, dst):
