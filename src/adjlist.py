@@ -115,7 +115,7 @@ class AdjacencyList:
         #todo: implement a way to add node before existing nodes
         #without that node inheriting all info and edge-functionalities
         #right now new node is added to the back of list
-        
+
         if self.find_node(name):
             if name is self.head().name():
                 self.head().set_info(info)
@@ -187,14 +187,18 @@ class AdjacencyList:
 
         Pre: `dst` is a member of this adjacency list.
         '''
-        if not self.find_node(dst):
-            return self.head()
-        else:
-            if src == self.head().name():
+        if src is self.head().name():
+            if not self.head().find_edge(self.head().name(), dst):
                 self.edges().add(dst, weight)
                 return self.head()
             else:
-                return self.tail()._add_edge(src, dst, weight)
+                self.head().edges().set_weight(weight)
+                return self.head() 
+        else:
+            return self.tail()._add_edge(src, dst, weight)
+        
+        #return self.head()
+       
 
     def delete_edge(self, src, dst):
         '''
@@ -218,7 +222,13 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        log.info("TODO: delete_edges()")
+        if self.is_empty():
+            return self.head()
+        if name is not self.head().edges().dst():
+            self.tail().delete_edges(name)
+        else:
+            self.head().edges().set_dst(None)
+            
         return self.head()
 
     def find_edge(self, src, dst):
