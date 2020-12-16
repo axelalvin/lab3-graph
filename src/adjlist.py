@@ -112,9 +112,9 @@ class AdjacencyList:
         is a member, its info-field is updated based on `info`.
         Returns an adjacency list head.
         '''
-        #todo: implement a way to add node before existing nodes
-        #without that node inheriting all info and edge-functionalities
-        #right now new node is added to the back of list
+        # todo: implement a way to add node before existing nodes
+        # without that node inheriting all info and edge-functionalities
+        # right now new node is added to the back of list
 
         if self.find_node(name):
             if name is self.head().name():
@@ -126,7 +126,7 @@ class AdjacencyList:
             self.head().__init__(name, info)
         else:
             self.tail().add_node(name, info)
-            
+
         return self.head()
 
     def delete_node(self, name):
@@ -193,12 +193,11 @@ class AdjacencyList:
                 return self.head()
             else:
                 self.head().edges().set_weight(weight)
-                return self.head() 
+                return self.head()
         else:
             return self.tail()._add_edge(src, dst, weight)
-        
+
         return self.head()
-       
 
     def delete_edge(self, src, dst):
         '''
@@ -212,9 +211,8 @@ class AdjacencyList:
             self.edges().delete(dst)
         else:
             self.tail().delete_edge(src, dst)
-        
-        return self.head()
 
+        return self.head()
 
     def delete_edges(self, name):
         '''
@@ -228,7 +226,7 @@ class AdjacencyList:
             self.tail().delete_edges(name)
         else:
             self.head().edges().set_dst(None)
-            
+
         return self.head()
 
     def find_edge(self, src, dst):
@@ -238,7 +236,7 @@ class AdjacencyList:
         if self.is_empty():
             return False
         if src is self.head().name() and self.head().edges().find(dst):
-                return True
+            return True
         else:
             return self.tail().find_edge(src, dst)
 
@@ -259,10 +257,13 @@ class AdjacencyList:
         log.info("TODO: self_loops()")
         return 0
 
-    def _findIndex(self, des, size):
-        for i in range(size):
-            if chr(ord("a") + i) == des:
-                return i
+    def _findIndex(self, des):
+
+        for index, name in enumerate(self.list_nodes()):
+            if name == des:
+                return index
+
+        return None
 
     def adjacency_matrix(self):
         '''
@@ -311,8 +312,7 @@ class AdjacencyList:
 
             while not edge.is_empty():
 
-                edgeIndex = self._findIndex(edge.dst(), n)
-
+                edgeIndex = self._findIndex(edge.dst())
                 matrix[nodeIndex][edgeIndex] = edge.weight()
 
                 edgeIndex += 1
@@ -322,6 +322,22 @@ class AdjacencyList:
             nodeIndex += 1
             node = node.tail()
 
+        """
+        listorn fungerar inte som jag tror at dem gör
+        list_nodes retunerar stängar
+        list_nodes retunerar en lista med strängar också
+        nodeIndex = 0
+        node = self.head()
+        print(node.list_edges())
+        while not node.is_empty():
+
+            for edge in node.list_edges():
+                edgeIndex = self._findIndex(edge.dst(), n)
+                matrix[nodeIndex][edgeIndex] = edge.weight()
+
+            nodeIndex += 1
+            node = node.tail()
+        """
         return matrix
 
     def list_nodes(self):
@@ -444,9 +460,9 @@ class Edge:
             self.head().set_dst(None)
         else:
             self.tail().delete(dst)
-        
+
         return self.head()
-        
+
     def find(self, dst):
         '''
         Returns True if there is an edge towards `dst` in this sequence.
