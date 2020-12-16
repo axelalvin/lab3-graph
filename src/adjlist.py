@@ -197,7 +197,7 @@ class AdjacencyList:
         else:
             return self.tail()._add_edge(src, dst, weight)
         
-        #return self.head()
+        return self.head()
        
 
     def delete_edge(self, src, dst):
