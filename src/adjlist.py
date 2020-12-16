@@ -112,17 +112,21 @@ class AdjacencyList:
         is a member, its info-field is updated based on `info`.
         Returns an adjacency list head.
         '''
+        #todo: implement a way to add node before existing nodes
+        #without that node inheriting all info and edge-functionalities
+        #right now new node is added to the back of list
+
+        if self.find_node(name):
+            if name is self.head().name():
+                self.head().set_info(info)
+            else:
+                self.tail().add_node(name, info)
 
         if self.is_empty():
             self.head().__init__(name, info)
-        elif ord(name) < ord(self.head().name()):
-            tempName = self.head().name()
-            tempInfo = self.head().info()
-            self.head().set_name(name)
-            self.tail().add_node(tempName, tempInfo)
         else:
             self.tail().add_node(name, info)
-
+            
         return self.head()
 
     def delete_node(self, name):
@@ -131,7 +135,6 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-
         if self.is_empty() or not self.find_node(name):
             return self.head()
 
@@ -184,13 +187,18 @@ class AdjacencyList:
 
         Pre: `dst` is a member of this adjacency list.
         '''
-        if not self.find_node(dst):
-            return self.head()
-        else:
-            if src == self.head().name():
-                return self.head().edges().add(dst, weight)
+        if src is self.head().name():
+            if not self.head().find_edge(self.head().name(), dst):
+                self.edges().add(dst, weight)
+                return self.head()
             else:
-                return self.tail()._add_edge(src, dst, weight)
+                self.head().edges().set_weight(weight)
+                return self.head() 
+        else:
+            return self.tail()._add_edge(src, dst, weight)
+        
+        return self.head()
+       
 
     def delete_edge(self, src, dst):
         '''
@@ -198,8 +206,15 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        log.info("TODO: delete_edge()")
+        if self.is_empty() or not self.find_edge(src, dst):
+            return self.head()
+        if src is self.head().name():
+            self.edges().delete(dst)
+        else:
+            self.tail().delete_edge(src, dst)
+        
         return self.head()
+
 
     def delete_edges(self, name):
         '''
@@ -207,7 +222,13 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        log.info("TODO: delete_edges()")
+        if self.is_empty():
+            return self.head()
+        if name is not self.head().edges().dst():
+            self.tail().delete_edges(name)
+        else:
+            self.head().edges().set_dst(None)
+            
         return self.head()
 
     def find_edge(self, src, dst):
@@ -216,8 +237,8 @@ class AdjacencyList:
         '''
         if self.is_empty():
             return False
-        if src == self.head().name():
-            return self.head().edges().find(dst)
+        if src is self.head().name() and self.head().edges().find(dst):
+                return True
         else:
             return self.tail().find_edge(src, dst)
 
@@ -405,7 +426,7 @@ class Edge:
         Returns an edge head.
         '''
         if self.is_empty():
-            self.head().__init__(dst, weight)
+            self.__init__(dst, weight)
         else:
             self.tail().add(dst, weight)
 
@@ -417,9 +438,15 @@ class Edge:
 
         Returns an edge head.
         '''
-        log.info("TODO: delete()")
+        if self.is_empty() or not self.find(dst):
+            return self.head()
+        if dst is self.head().dst():
+            self.head().set_dst(None)
+        else:
+            self.tail().delete(dst)
+        
         return self.head()
-
+        
     def find(self, dst):
         '''
         Returns True if there is an edge towards `dst` in this sequence.
