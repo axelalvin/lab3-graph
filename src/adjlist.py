@@ -197,8 +197,6 @@ class AdjacencyList:
         else:
             return self.tail()._add_edge(src, dst, weight)
 
-        return self.head()
-
     def delete_edge(self, src, dst):
         '''
         Deletes an edge from node `src` to node `dst` if it exists.
@@ -207,8 +205,9 @@ class AdjacencyList:
         '''
         if self.is_empty() or not self.find_edge(src, dst):
             return self.head()
-        if src is self.head().name():
-            self.edges().delete(dst)
+        if src == self.head().name():
+            # need to make a new list
+            self.set_edges(self.edges().delete(dst))
         else:
             self.tail().delete_edge(src, dst)
 
@@ -222,7 +221,7 @@ class AdjacencyList:
         '''
         if self.is_empty():
             return self.head()
-        if name is not self.head().edges().dst():
+        if name != self.head().edges().dst():
             self.tail().delete_edges(name)
         else:
             self.head().edges().set_dst(None)
@@ -440,7 +439,7 @@ class Edge:
         '''
         if self.is_empty() or not self.find(dst):
             return self.head()
-        if dst is not self.head().dst():
+        if dst != self.head().dst():
             return self.cons(self.tail().delete(dst))
         else:
             return self.tail()
