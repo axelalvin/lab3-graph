@@ -124,6 +124,11 @@ class AdjacencyList:
 
         if self.is_empty():
             self.head().__init__(name, info)
+        elif ord(name) < ord(self.head().name()):
+            #this is for changing the head of the list
+            newTail = self.head()
+            newHead = AdjacencyList(name, info)
+            return 
         else:
             self.tail().add_node(name, info)
 
@@ -441,11 +446,8 @@ class Edge:
             return self.cons(self.tail().delete(dst))
         else:
             return self.tail()
-<<<<<<< HEAD
      
-=======
 
->>>>>>> d0023809ee6b20134702a34b1762af4cf1e9e781
     def find(self, dst):
         '''
         Returns True if there is an edge towards `dst` in this sequence.
