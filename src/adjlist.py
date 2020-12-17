@@ -130,20 +130,20 @@ class AdjacencyList:
         # om boskaves som ska in är störe än nästa node då ska ett byte ske :: A < B då ska ett byte ske
         elif not self.head().tail().is_empty() and (name < self.head().tail().head().name()):
             print("körs")
-
-            # sparar referänsen till noden som hade bokstaven störe
+            # sparar noden som hade bokstaven stör
             nextNode = self.head().tail()
             print("sparar tail")
 
-            # skapar en ny node
+            # skapar en ny node av den nu varande noden
             print("skapar en ny node")
-            self.head().tail().__init__(name, info)
+            newNode = self.head()
+            newNode.head().__init__(name, info)
 
             # ser till att den nya noden har samma referäns till den gammla
             print("har samma referäns till den gammla")
-            self.head().tail().cons(nextNode)
+            newNode.head().cons(nextNode)
 
-            return self.head()
+            return self.head().cons(newNode)
 
         else:
 
