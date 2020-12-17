@@ -112,9 +112,9 @@ class AdjacencyList:
         is a member, its info-field is updated based on `info`.
         Returns an adjacency list head.
         '''
-        #todo: implement a way to add node before existing nodes
-        #without that node inheriting all info and edge-functionalities
-        #right now new node is added to the back of list
+        # todo: implement a way to add node before existing nodes
+        # without that node inheriting all info and edge-functionalities
+        # right now new node is added to the back of list
 
         if self.find_node(name):
             if name is self.head().name():
@@ -126,7 +126,7 @@ class AdjacencyList:
             self.head().__init__(name, info)
         else:
             self.tail().add_node(name, info)
-            
+
         return self.head()
 
     def delete_node(self, name):
@@ -193,12 +193,9 @@ class AdjacencyList:
                 return self.head()
             else:
                 self.head().edges().set_weight(weight)
-                return self.head() 
+                return self.head()
         else:
             return self.tail()._add_edge(src, dst, weight)
-        
-        return self.head()
-       
 
     def delete_edge(self, src, dst):
         '''
@@ -236,7 +233,7 @@ class AdjacencyList:
         if self.is_empty():
             return False
         if src is self.head().name() and self.head().edges().find(dst):
-                return True
+            return True
         else:
             return self.tail().find_edge(src, dst)
 
@@ -257,10 +254,13 @@ class AdjacencyList:
         log.info("TODO: self_loops()")
         return 0
 
-    def _findIndex(self, des, size):
-        for i in range(size):
-            if chr(ord("a") + i) == des:
-                return i
+    def _findIndex(self, des):
+
+        for index, name in enumerate(self.list_nodes()):
+            if name == des:
+                return index
+
+        return None
 
     def adjacency_matrix(self):
         '''
@@ -309,8 +309,7 @@ class AdjacencyList:
 
             while not edge.is_empty():
 
-                edgeIndex = self._findIndex(edge.dst(), n)
-
+                edgeIndex = self._findIndex(edge.dst())
                 matrix[nodeIndex][edgeIndex] = edge.weight()
 
                 edgeIndex += 1
@@ -442,7 +441,11 @@ class Edge:
             return self.cons(self.tail().delete(dst))
         else:
             return self.tail()
+<<<<<<< HEAD
      
+=======
+
+>>>>>>> d0023809ee6b20134702a34b1762af4cf1e9e781
     def find(self, dst):
         '''
         Returns True if there is an edge towards `dst` in this sequence.
