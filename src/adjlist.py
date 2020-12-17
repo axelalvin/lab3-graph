@@ -203,32 +203,30 @@ class AdjacencyList:
     def delete_edge(self, src, dst):
         '''
         Deletes an edge from node `src` to node `dst` if it exists.
-
         Returns an adjacency list head.
         '''
         if self.is_empty() or not self.find_edge(src, dst):
             return self.head()
-        if src is self.head().name():
-            self.edges().delete(dst)
+        if src == self.head().name():
+            # need to make a new list
+            self.set_edges(self.edges().delete(dst))
         else:
             self.tail().delete_edge(src, dst)
-        
-        return self.head()
 
+        return self.head()
 
     def delete_edges(self, name):
         '''
         Deletes all edges towards the node named `name`.
-
         Returns an adjacency list head.
         '''
         if self.is_empty():
             return self.head()
-        if name is not self.head().edges().dst():
+        if name != self.head().edges().dst():
             self.tail().delete_edges(name)
         else:
             self.head().edges().set_dst(None)
-            
+
         return self.head()
 
     def find_edge(self, src, dst):
@@ -440,12 +438,11 @@ class Edge:
         '''
         if self.is_empty() or not self.find(dst):
             return self.head()
-        if dst is not self.head().dst():
+        if dst != self.head().dst():
             return self.cons(self.tail().delete(dst))
         else:
             return self.tail()
-        
-        
+     
     def find(self, dst):
         '''
         Returns True if there is an edge towards `dst` in this sequence.
