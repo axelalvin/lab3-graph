@@ -144,7 +144,6 @@ class AdjacencyList:
             newNode.head().cons(nextNode)
 
             return self.head().cons(newNode)
-
         else:
 
             return self.cons(self.tail().add_node(name, info))
@@ -222,7 +221,6 @@ class AdjacencyList:
     def delete_edge(self, src, dst):
         '''
         Deletes an edge from node `src` to node `dst` if it exists.
-
         Returns an adjacency list head.
         '''
         if self.is_empty() or not self.find_edge(src, dst):
@@ -238,7 +236,6 @@ class AdjacencyList:
     def delete_edges(self, name):
         '''
         Deletes all edges towards the node named `name`.
-
         Returns an adjacency list head.
         '''
         if self.is_empty():
@@ -465,6 +462,7 @@ class Edge:
             return self.cons(self.tail().delete(dst))
         else:
             return self.tail()
+     
 
     def find(self, dst):
         '''
