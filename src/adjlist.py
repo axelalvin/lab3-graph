@@ -117,20 +117,36 @@ class AdjacencyList:
         # right now new node is added to the back of list
 
         if self.find_node(name):
-            if name is self.head().name():
+            if name == self.head().name():
                 self.head().set_info(info)
+                return self.head()
             else:
                 self.tail().add_node(name, info)
 
-        if self.is_empty():
+        elif self.is_empty():
             self.head().__init__(name, info)
-        elif ord(name) < ord(self.head().name()):
-            #this is for changing the head
-            newTail = self.head()
-            newHead = AdjacencyList(name, info)
-            return newHead.cons(newTail)
+            return self.head()
+
+        # om boskaves som ska in är störe än nästa node då ska ett byte ske :: A < B då ska ett byte ske
+        elif not self.head().tail().is_empty() and (name < self.head().tail().head().name()):
+            print("körs")
+            # sparar noden som hade bokstaven stör
+            nextNode = self.head().tail()
+            print("sparar tail")
+
+            # skapar en ny node av den nu varande noden
+            print("skapar en ny node")
+            newNode = self.head()
+            newNode.head().__init__(name, info)
+
+            # ser till att den nya noden har samma referäns till den gammla
+            print("har samma referäns till den gammla")
+            newNode.head().cons(nextNode)
+
+            return self.head().cons(newNode)
         else:
-            self.tail().add_node(name, info)
+
+            return self.cons(self.tail().add_node(name, info))
 
         return self.head()
 
