@@ -132,7 +132,6 @@ class AdjacencyList:
         else:
             self.tail().add_node(name, info)
 
-        print("got")
         return self.head()
 
     def delete_node(self, name):
