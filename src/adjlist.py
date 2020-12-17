@@ -125,13 +125,14 @@ class AdjacencyList:
         if self.is_empty():
             self.head().__init__(name, info)
         elif ord(name) < ord(self.head().name()):
-            #this is for changing the head of the list
+            #this is for changing the head
             newTail = self.head()
             newHead = AdjacencyList(name, info)
-            return 
+            return newHead.cons(newTail)
         else:
             self.tail().add_node(name, info)
 
+        print("got")
         return self.head()
 
     def delete_node(self, name):
