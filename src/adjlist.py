@@ -221,11 +221,11 @@ class AdjacencyList:
         '''
 
         if src is self.head().name():
-            print("hej")
             # om dst inte finns skappar vi en ny edge
             if not self.head().find_edge(self.head().name(), dst):
-                self.edges().add(dst, weight)
+                self.set_edges(self.edges().add(dst, weight))
                 return self.head()
+
             else:
                 # om den finns uppdaterar letar vi fram edgen som har samma dst och uppdatera denns vikt
                 edge = self.head().edges()
@@ -233,7 +233,7 @@ class AdjacencyList:
                     edge = self.head().edges().tail()
                 edge.set_weight(weight)
         else:
-            return self.cons(self._add_edge(src, dst, weight))
+            return self.cons(self.tail()._add_edge(src, dst, weight))
 
     def delete_edge(self, src, dst):
         '''
@@ -469,31 +469,34 @@ class Edge:
         #
         #   Ändring av vikt görs i _add_node() metoden
         #
+        print("add")
         if self.is_empty():
+            print("is empty")
             self.__init__(dst, weight)
-            return self.head()
-
-        # return self.head() original
+            return self.head()  # original
 
         # checks if 'name' < self.head().name()
-        elif dst < self.dst():
+        elif dst < self.head().dst():
+            print("dst < self.dst()")
 
             # save the current head
             nextNode = self.head()
 
-            # create a new node name, info
+            # create a new node dst, weight
             newNode = Edge(dst, weight)
 
             # return newNode as head() an prev head as new tail
-            return newNode.head().cons(nextNode)
+            newNode.head().cons(nextNode)
+            print(newNode.tail().dst())
+            return newNode.head()
 
         # checks if 'name' < tail()
         elif not self.head().tail().is_empty() and (dst < self.head().tail().dst()):
-
+            print("dst < self.head().tail().dst()")
             # save the current head().tail()
             nextNode = self.head().tail()
 
-            # create new node 'name, info'
+            # create new node 'dst, weight'
             newNode = Edge(dst, weight)
 
             # set newNode.tail() to current tail()
@@ -503,9 +506,9 @@ class Edge:
             return self.head().cons(newNode)
 
         else:
-
+            print("söker vidare")
             # self.tail().add(dst, weight) the original
-            return self.cons(self.tail().add(dst, weight))
+            return self.head().cons(self.tail().add(dst, weight))
 
     def delete(self, dst):
         '''
