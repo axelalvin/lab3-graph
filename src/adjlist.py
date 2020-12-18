@@ -120,7 +120,6 @@ class AdjacencyList:
         # PROBLEM: never gets here if node 'name' already is a member
         if self.find_node(name):
             if name == self.head().name():
-                print("info updated")
                 self.head().set_info(info)
                 return self.head()
             else:
@@ -454,8 +453,10 @@ class Edge:
         #
         #   Ändring av vikt görs i _add_node() metoden
         #
+        print("runs")
         if self.is_empty():
             self.__init__(dst, weight)
+            print("added")
             return self.head()  # original
 
         # checks if 'name' < self.head().name()
