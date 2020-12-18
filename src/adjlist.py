@@ -131,7 +131,7 @@ class AdjacencyList:
             return self.head()
         
         #checks if 'name' < self.head().name()
-        elif not self.head().tail().is_empty() and (name < self.name()):
+        elif name < self.name():
             
             #save the current head
             nextNode = self.head()
