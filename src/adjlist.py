@@ -116,8 +116,11 @@ class AdjacencyList:
         # without that node inheriting all info and edge-functionalities
         # right now new node is added to the back of list
 
+        #if node is already in list, update it's info
+        #PROBLEM: never gets here if node 'name' already is a member
         if self.find_node(name):
             if name == self.head().name():
+                print("info updated")
                 self.head().set_info(info)
                 return self.head()
             else:
@@ -126,29 +129,38 @@ class AdjacencyList:
         elif self.is_empty():
             self.head().__init__(name, info)
             return self.head()
+        
+        #checks if 'name' < self.head().name()
+        elif not self.head().tail().is_empty() and (name < self.name()):
+            
+            #save the current head
+            nextNode = self.head()
 
-        # om boskaves som ska in är störe än nästa node då ska ett byte ske :: A < B då ska ett byte ske
-        elif not self.head().tail().is_empty() and (name < self.head().tail().head().name()):
-            print("körs")
-            # sparar noden som hade bokstaven stör
+            #create a new node name, info
+            newNode = AdjacencyList(name, info) 
+
+            #return newNode as head() an prev head as new tail
+            return newNode.head().cons(nextNode)
+
+        #checks if 'name' < tail()
+        elif not self.head().tail().is_empty() and (name < self.head().tail().name()):
+            
+            #save the current head().tail()
             nextNode = self.head().tail()
-            print("sparar tail")
+            
+            #create new node 'name, info'
+            newNode = AdjacencyList(name, info)
 
-            # skapar en ny node av den nu varande noden
-            print("skapar en ny node")
-            newNode = self.head()
-            newNode.head().__init__(name, info)
-
-            # ser till att den nya noden har samma referäns till den gammla
-            print("har samma referäns till den gammla")
+            #set newNode.tail() to current tail()
             newNode.head().cons(nextNode)
 
+            #return head with new tail
             return self.head().cons(newNode)
+
         else:
 
             return self.cons(self.tail().add_node(name, info))
 
-        return self.head()
 
     def delete_node(self, name):
         '''
