@@ -220,7 +220,8 @@ class AdjacencyList:
         Pre: `dst` is a member of this adjacency list.
         '''
 
-        if src == self.head().name():
+        if src is self.head().name():
+            print("hej")
             # om dst inte finns skappar vi en ny edge
             if not self.head().find_edge(self.head().name(), dst):
                 self.edges().add(dst, weight)
@@ -231,7 +232,6 @@ class AdjacencyList:
                 while dst is not edge.dst():
                     edge = self.head().edges().tail()
                 edge.set_weight(weight)
-
         else:
             return self.cons(self._add_edge(src, dst, weight))
 
