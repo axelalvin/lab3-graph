@@ -220,7 +220,7 @@ class AdjacencyList:
         Pre: `dst` is a member of this adjacency list.
         '''
 
-        if src is self.head().name():
+        if src == self.head().name():
             # om dst inte finns skappar vi en ny edge
             if not self.head().find_edge(self.head().name(), dst):
                 self.edges().add(dst, weight)
@@ -233,7 +233,7 @@ class AdjacencyList:
                 edge.set_weight(weight)
 
         else:
-            return self.tail()._add_edge(src, dst, weight)
+            return self.cons(self._add_edge(src, dst, weight))
 
     def delete_edge(self, src, dst):
         '''
@@ -466,12 +466,46 @@ class Edge:
 
         Returns an edge head.
         '''
+        #
+        #   Ändring av vikt görs i _add_node() metoden
+        #
         if self.is_empty():
             self.__init__(dst, weight)
-        else:
-            self.tail().add(dst, weight)
+            return self.head()
 
-        return self.head()
+        # return self.head() original
+
+        # checks if 'name' < self.head().name()
+        elif dst < self.dst():
+
+            # save the current head
+            nextNode = self.head()
+
+            # create a new node name, info
+            newNode = Edge(dst, weight)
+
+            # return newNode as head() an prev head as new tail
+            return newNode.head().cons(nextNode)
+
+        # checks if 'name' < tail()
+        elif not self.head().tail().is_empty() and (dst < self.head().tail().dst()):
+
+            # save the current head().tail()
+            nextNode = self.head().tail()
+
+            # create new node 'name, info'
+            newNode = Edge(dst, weight)
+
+            # set newNode.tail() to current tail()
+            newNode.head().cons(nextNode)
+
+            # return head with new tail
+            return self.head().cons(newNode)
+
+        else:
+
+            # self.tail().add(dst, weight) the original
+            return self.cons(self.tail().add(dst, weight))
 
     def delete(self, dst):
         '''
