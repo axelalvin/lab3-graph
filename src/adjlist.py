@@ -288,7 +288,7 @@ class AdjacencyList:
         loop_count = 0
         if self.head().edges().is_self_loop(self.head().name()):
             loop_count = 1
-        
+
         return loop_count + self.tail().self_loops()
 
     def _findIndex(self, des):
