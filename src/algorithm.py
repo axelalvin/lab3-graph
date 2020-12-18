@@ -26,7 +26,7 @@ def warshall(adjlist):
         return [[]]
 
     # puting zeros in loops
-    for index in range(len(distanceMatix)):
+    for index in range(n):
         distanceMatix[index][index] = 0
 
     # the algoritmen
