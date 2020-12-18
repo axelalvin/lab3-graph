@@ -116,8 +116,8 @@ class AdjacencyList:
         # without that node inheriting all info and edge-functionalities
         # right now new node is added to the back of list
 
-        #if node is already in list, update it's info
-        #PROBLEM: never gets here if node 'name' already is a member
+        # if node is already in list, update it's info
+        # PROBLEM: never gets here if node 'name' already is a member
         if self.find_node(name):
             if name == self.head().name():
                 print("info updated")
@@ -129,38 +129,37 @@ class AdjacencyList:
         elif self.is_empty():
             self.head().__init__(name, info)
             return self.head()
-        
-        #checks if 'name' < self.head().name()
+
+        # checks if 'name' < self.head().name()
         elif name < self.name():
-            
-            #save the current head
+
+            # save the current head
             nextNode = self.head()
 
-            #create a new node name, info
-            newNode = AdjacencyList(name, info) 
-
-            #return newNode as head() an prev head as new tail
-            return newNode.head().cons(nextNode)
-
-        #checks if 'name' < tail()
-        elif not self.head().tail().is_empty() and (name < self.head().tail().name()):
-            
-            #save the current head().tail()
-            nextNode = self.head().tail()
-            
-            #create new node 'name, info'
+            # create a new node name, info
             newNode = AdjacencyList(name, info)
 
-            #set newNode.tail() to current tail()
+            # return newNode as head() an prev head as new tail
+            return newNode.head().cons(nextNode)
+
+        # checks if 'name' < tail()
+        elif not self.head().tail().is_empty() and (name < self.head().tail().name()):
+
+            # save the current head().tail()
+            nextNode = self.head().tail()
+
+            # create new node 'name, info'
+            newNode = AdjacencyList(name, info)
+
+            # set newNode.tail() to current tail()
             newNode.head().cons(nextNode)
 
-            #return head with new tail
+            # return head with new tail
             return self.head().cons(newNode)
 
         else:
 
             return self.cons(self.tail().add_node(name, info))
-
 
     def delete_node(self, name):
         '''
@@ -480,7 +479,6 @@ class Edge:
             return self.cons(self.tail().delete(dst))
         else:
             return self.tail()
-     
 
     def find(self, dst):
         '''
@@ -492,7 +490,7 @@ class Edge:
             return True
         else:
             return self.tail().find(dst)
-    
+
     def is_self_loop(self, name):
         '''
         Returns True if edge is a self-loop
