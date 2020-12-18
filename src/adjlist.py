@@ -142,21 +142,6 @@ class AdjacencyList:
             # return newNode as head() an prev head as new tail
             return newNode.head().cons(nextNode)
 
-        # checks if 'name' < tail()
-        elif not self.head().tail().is_empty() and (name < self.head().tail().name()):
-
-            # save the current head().tail()
-            nextNode = self.head().tail()
-
-            # create new node 'name, info'
-            newNode = AdjacencyList(name, info)
-
-            # set newNode.tail() to current tail()
-            newNode.head().cons(nextNode)
-
-            # return head with new tail
-            return self.head().cons(newNode)
-
         else:
 
             return self.cons(self.tail().add_node(name, info))
@@ -469,15 +454,12 @@ class Edge:
         #
         #   Ändring av vikt görs i _add_node() metoden
         #
-        print("add")
         if self.is_empty():
-            print("is empty")
             self.__init__(dst, weight)
             return self.head()  # original
 
         # checks if 'name' < self.head().name()
         elif dst < self.head().dst():
-            print("dst < self.dst()")
 
             # save the current head
             nextNode = self.head()
@@ -490,24 +472,7 @@ class Edge:
             print(newNode.tail().dst())
             return newNode.head()
 
-        # checks if 'name' < tail()
-        elif not self.head().tail().is_empty() and (dst < self.head().tail().dst()):
-            print("dst < self.head().tail().dst()")
-            # save the current head().tail()
-            nextNode = self.head().tail()
-
-            # create new node 'dst, weight'
-            newNode = Edge(dst, weight)
-
-            # set newNode.tail() to current tail()
-            newNode.head().cons(nextNode)
-
-            # return head with new tail
-            return self.head().cons(newNode)
-
         else:
-            print("söker vidare")
-            # self.tail().add(dst, weight) the original
             return self.head().cons(self.tail().add(dst, weight))
 
     def delete(self, dst):
