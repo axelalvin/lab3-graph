@@ -284,8 +284,14 @@ class AdjacencyList:
         Returns the number of loops in this adjacency list.  Note that a loop is
         defined as a node that has an edge towards itself, e.g., A->A.
         '''
-        log.info("TODO: self_loops()")
-        return 0
+        if self.head().is_empty():
+            return 0
+
+        loop_count = 0
+        if self.head().edges().is_self_loop(self.head().name()):
+            loop_count = 1
+        
+        return loop_count + self.tail().self_loops()
 
     def _findIndex(self, des):
 
@@ -486,6 +492,17 @@ class Edge:
             return True
         else:
             return self.tail().find(dst)
+    
+    def is_self_loop(self, name):
+        '''
+        Returns True if edge is a self-loop
+        '''
+        if self.head().is_empty():
+            return False
+        if name == self.dst():
+            return True
+        else:
+            return self.tail().is_self_loop(name)
 
     def cardinality(self):
         '''
