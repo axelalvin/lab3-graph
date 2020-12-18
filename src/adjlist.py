@@ -219,14 +219,21 @@ class AdjacencyList:
 
         Pre: `dst` is a member of this adjacency list.
         '''
+
         if src is self.head().name():
+            # om dst inte finns skappar vi en ny edge
             if not self.head().find_edge(self.head().name(), dst):
                 self.edges().add(dst, weight)
                 return self.head()
             else:
-                self.head().edges().set_weight(weight)
-                return self.head()
-        return self.tail()._add_edge(src, dst, weight)
+                # om den finns uppdaterar letar vi fram edgen som har samma dst och uppdatera denns vikt
+                edge = self.head().edges()
+                while dst is not edge.dst():
+                    edge = self.head().edges().tail()
+                edge.set_weight(weight)
+
+        else:
+            return self.tail()._add_edge(src, dst, weight)
 
     def delete_edge(self, src, dst):
         '''
@@ -288,7 +295,7 @@ class AdjacencyList:
         loop_count = 0
         if self.head().edges().is_self_loop(self.head().name()):
             loop_count = 1
-        
+
         return loop_count + self.tail().self_loops()
 
     def _findIndex(self, des):
