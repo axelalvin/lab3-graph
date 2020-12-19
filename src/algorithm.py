@@ -35,6 +35,7 @@ def warshall(adjlist):
             for j in range(n):
                 distanceMatix[i][j] = min(
                     distanceMatix[i][j], distanceMatix[i][k] + distanceMatix[k][j])
+                print(distanceMatix[i][j])
 
     return distanceMatix
 
@@ -45,9 +46,29 @@ def floyd(adjlist):
 
     Pre: adjlist is not empty.
     '''
-    log.info("TODO: floyd()")
-    return [[]]
+    n = adjlist.node_cardinality()
+    distanceMatix = adjlist.adjacency_matrix()
 
+    # algoritmen fungerar bara om det inte finns några loopar med sig själva
+    if adjlist.self_loops() > 0:
+        print("contains loops")
+        return [[]]
+
+    # puting zeros in loops
+    for index in range(n):
+        distanceMatix[index][index] = 0
+
+    # the algoritmen
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                distanceMatix[i][j] = min(
+                    distanceMatix[i][j], distanceMatix[i][k] + distanceMatix[k][j])
+                if distanceMatix[i][j] is not inf:
+                    distanceMatix[i][j] = True
+
+    return distanceMatix
+    
 
 def dijkstra(adjlist, start_node):
     '''
