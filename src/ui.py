@@ -225,7 +225,7 @@ class TerminalUI:
 
         self.adj_list = self._adjlist.add_edge(from_node, to_node, weight)
         if self._mode == "undirected":
-            self.adj_list = self._adjlist.add_edge(to_node, from_node, weight)
+            self._adjlist = self._adjlist.add_edge(to_node, from_node, weight)
 
     def delete_edge(self):
         '''
