@@ -69,15 +69,6 @@ def floyd(adjlist):
     return distanceMatix
 
 
-def indexfromword(word):
-    #
-    # OM NODEerna inte är i boksatvsordning funkar det inte tex a d f funkar inte
-    #
-    index = 0
-    while chr(ord("a") + index) != word:
-        index += 1
-    return index
-
 def my_min(sequence):
 
     min = sequence[0]
@@ -92,8 +83,6 @@ def extract_min(Q):
     v  = None
     for index, m in enumerate(Q):
         if m[1] == min:
-            print(f"I = {index}")
-            print()
             v = Q.pop(index)
     return v , Q
 
@@ -142,17 +131,17 @@ def dijkstra(adjlist, start_node):
     '''
     d = []
     e = []
-
     Q = []
 
     node = adjlist.head()
     index = node._findIndex(start_node)
 
+
     #Init-Single-Source(adjlist, startnode)
     while not node.is_empty():
         d.append(inf)
         e.append(None)
-        Q.append([node, inf])
+        Q.append([node, inf]) 
         node = node.tail()    
     d[index] = Q[index][1] = 0
 
