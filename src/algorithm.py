@@ -119,7 +119,14 @@ def dijkstra(adjlist, start_node):
 
     while len(Q) > 0:
         # extract-min(Q)
+        print("Q = ", end="")
+        for q in Q:
+            print(f"{q.name()}, ", end="")
+        print()
+        print(f"d = {d}")
+        print(f"I = {d.index(min(d))}")
         u = Q.pop(d.index(min(d)))
+        print(f"u = {u.name()}")
 
         for v in u.edges().list(u.name()):
             (src, dst, weight) = v
@@ -129,7 +136,7 @@ def dijkstra(adjlist, start_node):
             if d[indexV] > d[indexU] + weight:
                 d[indexV] = d[indexU] + weight
                 e[indexV] = src
-                #it change then
+                #it change, then
                 #Decrease-Key(Q,v,d[v])
 
     d[index] = e[index] = None
