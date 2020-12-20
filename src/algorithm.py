@@ -70,10 +70,49 @@ def floyd(adjlist):
 
 
 def indexfromword(word):
+    #
+    # OM NODEerna inte är i boksatvsordning funkar det inte tex a d f funkar inte
+    #
     index = 0
     while chr(ord("a") + index) != word:
         index += 1
     return index
+
+def my_min(sequence):
+
+    min = sequence[0]
+
+    for item in sequence:
+        if item[1] < min[1]:
+            min = item
+    return min[1]
+
+def extract_min(Q):
+    min = my_min(Q)
+    v  = None
+    for index, m in enumerate(Q):
+        if m[1] == min:
+            print(f"I = {index}")
+            print()
+            v = Q.pop(index)
+    return v , Q
+
+def findeIndexInAlist(_list, des):
+    for index, name in enumerate(_list):
+            if name[0].name() == des:
+                return index
+
+def _findIndex(_list, des):
+
+    for index, name in enumerate(_list):
+        if name == des:
+            return index
+
+    return None
+
+
+
+    
 
 def dijkstra(adjlist, start_node):
     '''
@@ -107,37 +146,45 @@ def dijkstra(adjlist, start_node):
     Q = []
 
     node = adjlist.head()
-    index = indexfromword(start_node)
+    index = node._findIndex(start_node)
+
+    Nameofnodes = node.list_nodes()
 
     #Init-Single-Source(adjlist, startnode)
     while not node.is_empty():
         d.append(inf)
         e.append(None)
-        Q.append(node)
+        Q.append([node, inf])
         node = node.tail()    
-    d[index] = 0
+    d[index] = Q[index][1] = 0
 
     while len(Q) > 0:
-        # extract-min(Q)
-        print("Q = ", end="")
+        print("Q = ")
         for q in Q:
-            print(f"{q.name()}, ", end="")
+            print(f"[{q[1]}, {q[0].name()}], ")
         print()
         print(f"d = {d}")
-        print(f"I = {d.index(min(d))}")
-        u = Q.pop(d.index(min(d)))
-        print(f"u = {u.name()}")
+        print()
 
-        for v in u.edges().list(u.name()):
+        # extract-min(Q)
+        u , Q = extract_min(Q)
+    
+        print(f"u = {u[0].name()}")
+        print()
+
+
+        for v in u[0].edges().list(u[0].name()):
             (src, dst, weight) = v
-            indexV = indexfromword(dst)
-            indexU = indexfromword(src)
+            indexU = _findIndex(Nameofnodes, src)
+            indexV = _findIndex(Nameofnodes, dst)
             # Relax
             if d[indexV] > d[indexU] + weight:
                 d[indexV] = d[indexU] + weight
                 e[indexV] = src
                 #it change, then
                 #Decrease-Key(Q,v,d[v])
+                indexQ = findeIndexInAlist(Q, dst) 
+                Q[indexQ][1] = d[indexV]
 
     d[index] = e[index] = None
 
