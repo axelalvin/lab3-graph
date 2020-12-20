@@ -331,7 +331,7 @@ class TerminalUI:
         Run Prim's algorithm.
         '''
         if self._mode == "directed":
-            self.error("invalid graph mode")
+            self.display_error("invalid graph mode")
             return
         if self._adjlist.is_empty():
             self.display_error("graph is empty")
