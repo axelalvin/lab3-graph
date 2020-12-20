@@ -148,8 +148,6 @@ def dijkstra(adjlist, start_node):
     node = adjlist.head()
     index = node._findIndex(start_node)
 
-    Nameofnodes = node.list_nodes()
-
     #Init-Single-Source(adjlist, startnode)
     while not node.is_empty():
         d.append(inf)
@@ -159,29 +157,19 @@ def dijkstra(adjlist, start_node):
     d[index] = Q[index][1] = 0
 
     while len(Q) > 0:
-        print("Q = ")
-        for q in Q:
-            print(f"[{q[1]}, {q[0].name()}], ")
-        print()
-        print(f"d = {d}")
-        print()
-
+  
         # extract-min(Q)
         u , Q = extract_min(Q)
     
-        print(f"u = {u[0].name()}")
-        print()
-
-
         for v in u[0].edges().list(u[0].name()):
             (src, dst, weight) = v
-            indexU = _findIndex(Nameofnodes, src)
-            indexV = _findIndex(Nameofnodes, dst)
+            indexU = _findIndex(adjlist.head().list_nodes(), src)
+            indexV = _findIndex(adjlist.head().list_nodes(), dst)
             # Relax
             if d[indexV] > d[indexU] + weight:
                 d[indexV] = d[indexU] + weight
                 e[indexV] = src
-                #it change, then
+                
                 #Decrease-Key(Q,v,d[v])
                 indexQ = findeIndexInAlist(Q, dst) 
                 Q[indexQ][1] = d[indexV]
