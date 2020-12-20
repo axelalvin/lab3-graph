@@ -69,6 +69,12 @@ def floyd(adjlist):
     return distanceMatix
 
 
+def indexfromword(word):
+    index = 0
+    while chr(ord("a") + index) != word:
+        index += 1
+    return index
+
 def dijkstra(adjlist, start_node):
     '''
     Returns the result of running Dijkstra's algorithm as two N-length lists:
@@ -98,22 +104,35 @@ def dijkstra(adjlist, start_node):
     d = []
     e = []
 
-    S = []
     Q = []
 
+    node = adjlist.head()
+    index = indexfromword(start_node)
 
     #Init-Single-Source(adjlist, startnode)
-    node = start_node
     while not node.is_empty():
         d.append(inf)
         e.append(None)
-        Q.append(node)    
-    d[0] = 0
+        Q.append(node)
+        node = node.tail()    
+    d[index] = 0
 
     while len(Q) > 0:
         # extract-min(Q)
-        u = Q.pop(Q.index(min(Q)))
+        u = Q.pop(d.index(min(d)))
 
+        for v in u.edges().list(u.name()):
+            (src, dst, weight) = v
+            indexV = indexfromword(dst)
+            indexU = indexfromword(src)
+            # Relax
+            if d[indexV] > d[indexU] + weight:
+                d[indexV] = d[indexU] + weight
+                e[indexV] = src
+                #it change then
+                #Decrease-Key(Q,v,d[v])
+
+    d[index] = e[index] = None
 
     return d, e
 
