@@ -35,7 +35,6 @@ def warshall(adjlist):
             for j in range(n):
                 distanceMatix[i][j] = min(
                     distanceMatix[i][j], distanceMatix[i][k] + distanceMatix[k][j])
-                print(distanceMatix[i][j])
 
     return distanceMatix
 
@@ -68,6 +67,51 @@ def floyd(adjlist):
                     distanceMatix[i][j] = True
 
     return distanceMatix
+
+
+def indexfromword(word):
+    #
+    # OM NODEerna inte är i boksatvsordning funkar det inte tex a d f funkar inte
+    #
+    index = 0
+    while chr(ord("a") + index) != word:
+        index += 1
+    return index
+
+def my_min(sequence):
+
+    min = sequence[0]
+
+    for item in sequence:
+        if item[1] < min[1]:
+            min = item
+    return min[1]
+
+def extract_min(Q):
+    min = my_min(Q)
+    v  = None
+    for index, m in enumerate(Q):
+        if m[1] == min:
+            print(f"I = {index}")
+            print()
+            v = Q.pop(index)
+    return v , Q
+
+def findeIndexInAlist(_list, des):
+    for index, name in enumerate(_list):
+            if name[0].name() == des:
+                return index
+
+def _findIndex(_list, des):
+
+    for index, name in enumerate(_list):
+        if name == des:
+            return index
+
+    return None
+
+
+
     
 
 def dijkstra(adjlist, start_node):
@@ -96,9 +140,42 @@ def dijkstra(adjlist, start_node):
     d: [ None, 1, 2]
     e: [ None, 'a', 'a' ]
     '''
-    log.info("TODO: dijkstra()")
     d = []
     e = []
+
+    Q = []
+
+    node = adjlist.head()
+    index = node._findIndex(start_node)
+
+    #Init-Single-Source(adjlist, startnode)
+    while not node.is_empty():
+        d.append(inf)
+        e.append(None)
+        Q.append([node, inf])
+        node = node.tail()    
+    d[index] = Q[index][1] = 0
+
+    while len(Q) > 0:
+  
+        # extract-min(Q)
+        u , Q = extract_min(Q)
+    
+        for v in u[0].edges().list(u[0].name()):
+            (src, dst, weight) = v
+            indexU = _findIndex(adjlist.head().list_nodes(), src)
+            indexV = _findIndex(adjlist.head().list_nodes(), dst)
+            # Relax
+            if d[indexV] > d[indexU] + weight:
+                d[indexV] = d[indexU] + weight
+                e[indexV] = src
+                
+                #Decrease-Key(Q,v,d[v])
+                indexQ = findeIndexInAlist(Q, dst) 
+                Q[indexQ][1] = d[indexV]
+
+    d[index] = e[index] = None
+
     return d, e
 
 
