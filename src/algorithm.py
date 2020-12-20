@@ -35,7 +35,6 @@ def warshall(adjlist):
             for j in range(n):
                 distanceMatix[i][j] = min(
                     distanceMatix[i][j], distanceMatix[i][k] + distanceMatix[k][j])
-                print(distanceMatix[i][j])
 
     return distanceMatix
 
@@ -68,7 +67,7 @@ def floyd(adjlist):
                     distanceMatix[i][j] = True
 
     return distanceMatix
-    
+
 
 def dijkstra(adjlist, start_node):
     '''
@@ -96,9 +95,26 @@ def dijkstra(adjlist, start_node):
     d: [ None, 1, 2]
     e: [ None, 'a', 'a' ]
     '''
-    log.info("TODO: dijkstra()")
     d = []
     e = []
+
+    S = []
+    Q = []
+
+
+    #Init-Single-Source(adjlist, startnode)
+    node = start_node
+    while not node.is_empty():
+        d.append(inf)
+        e.append(None)
+        Q.append(node)    
+    d[0] = 0
+
+    while len(Q) > 0:
+        # extract-min(Q)
+        u = Q.pop(Q.index(min(Q)))
+
+
     return d, e
 
 
