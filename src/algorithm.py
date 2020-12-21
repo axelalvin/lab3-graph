@@ -99,6 +99,18 @@ def _findIndex(_list, des):
 
     return None
 
+def findMin(_list1, _list2):
+
+    _min = inf
+    smallest = inf
+    for i in range(len(_list1)):
+        if (_list1[i] < smallest) and (_list2[i] is False):
+            _min = i
+            smallest = _list1[i]
+
+    
+    return _min
+
 
 
     
@@ -195,56 +207,42 @@ def prim(adjlist, start_node):
     l: [ None, 1, 1]
     c: [ None, 'a', 'b' ]
     '''
-    '''
 
-    current_node = start_node
+    disMatrix = adjlist.adjacency_matrix()
+    node = adjlist.head()
+    index = node._findIndex(start_node)
+    v = adjlist.node_cardinality()
 
-    '''
-    n = adjlist.node_cardinality()
-    weightMatix = adjlist.adjacency_matrix()
+    l = []  #nodeWeight
+    c = []  #parent
+    setMst = [] #TRUE -> node is included in MST
+    
 
-    node_name = adjlist.list_nodes()
-
-    added_nodes = []
-    l = []
-    c = []
-    for i in range(n):
+    #set sizes to all lists to number of nodes
+    #and append values
+    while not node.is_empty():
         l.append(inf)
         c.append(inf)
+        setMst.append(False)
+        node = node.tail()
+    l[index] = 0
+    c[index] = None
 
-    print(l)
-    print(c)
+    node = adjlist.head()
 
-    added_nodes.append(start_node)
-    start_index = adjlist._findIndex(start_node)
-    current_node = start_node
-    #idea: rearange the matrix so that the start node is to the left
+    for i in range(v-1):
+        #set u to min element in c
+        u = findMin(l, setMst)
+        #print(u)
+        setMst[u] = True
 
-    #if start_node is not at the first pos in matrix    
-
-    for i in range(n):
-        shortest_weight = inf
-        shortest_to_node = None
-        for j in range(n):
-            #find shortest path
-            if weightMatix[i][j] < shortest_weight and node_name[j] not in added_nodes:
-                shortest_weight = weightMatix[i][j]
-                shortest_to_node = node_name[j]
-        added_nodes.append(shortest_to_node)
-        #print(shortest_weight)
-        if shortest_weight is inf or node_name[i] == start_node:
-            l[adjlist._findIndex(current_node)] = None
-        else:
-            l[adjlist._findIndex(current_node)] = shortest_weight
-        #print(shortest_to_node)
-        if shortest_weight is not inf:
-            c[adjlist._findIndex(current_node)] = node_name[i]
-        elif node_name[i] == start_node:
-            c[adjlist._findIndex(current_node)] = None
-        else:
-            c[adjlist._findIndex(current_node)] = None
-        current_node = shortest_to_node
+        for j in range(v):
+            if (disMatrix[u][j] != 0) and (setMst[j] is False) and (disMatrix[u][j] < l[j]):
+                l[j] = disMatrix[u][j]
+                c[j] = node._findName(u)
     
+
+    l[index] = c[index] = None
     return l, c
 
 

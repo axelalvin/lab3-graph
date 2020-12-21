@@ -290,6 +290,15 @@ class AdjacencyList:
 
         return None
 
+    def _findName(self, index):
+
+        count = 0
+        while not self.is_empty():
+            if count == index:
+                return self.name()
+            count += 1
+            self = self.tail()
+
     def adjacency_matrix(self):
         '''
         Returns this adjacency list as an adjacency matrix.  For example,
