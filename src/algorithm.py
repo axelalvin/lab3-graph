@@ -202,7 +202,6 @@ def prim(adjlist, start_node):
     c|3 1 *
 
     For start node "a", the expected output would then be:
-    Note: easiest example, what if it goes backwards? e.g, start_node = b
 
     l: [ None, 1, 1]
     c: [ None, 'a', 'b' ]
@@ -214,7 +213,7 @@ def prim(adjlist, start_node):
     v = adjlist.node_cardinality()
 
     l = []  #nodeWeight
-    c = []  #parent
+    c = []  #parent node
     setMst = [] #TRUE -> node is included in MST
     
 
@@ -231,11 +230,11 @@ def prim(adjlist, start_node):
     node = adjlist.head()
 
     for i in range(v-1):
-        #set u to min element in c
+        #set u to min element in l
         u = findMin(l, setMst)
-        #print(u)
         setMst[u] = True
 
+        #iterate through every column for node u
         for j in range(v):
             if (disMatrix[u][j] != 0) and (setMst[j] is False) and (disMatrix[u][j] < l[j]):
                 l[j] = disMatrix[u][j]
