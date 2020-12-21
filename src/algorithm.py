@@ -124,13 +124,61 @@ def prim(adjlist, start_node):
     c|3 1 *
 
     For start node "a", the expected output would then be:
+    Note: easiest example, what if it goes backwards? e.g, start_node = b
 
     l: [ None, 1, 1]
     c: [ None, 'a', 'b' ]
     '''
-    log.info("TODO: prim()")
+    '''
+
+    current_node = start_node
+
+    '''
+    n = adjlist.node_cardinality()
+    weightMatix = adjlist.adjacency_matrix()
+
+    node_name = adjlist.list_nodes()
+
+    added_nodes = []
     l = []
     c = []
+    for i in range(n):
+        l.append(inf)
+        c.append(inf)
+
+    print(l)
+    print(c)
+
+    added_nodes.append(start_node)
+    start_index = adjlist._findIndex(start_node)
+    current_node = start_node
+    #idea: rearange the matrix so that the start node is to the left
+
+    #if start_node is not at the first pos in matrix    
+
+    for i in range(n):
+        shortest_weight = inf
+        shortest_to_node = None
+        for j in range(n):
+            #find shortest path
+            if weightMatix[i][j] < shortest_weight and node_name[j] not in added_nodes:
+                shortest_weight = weightMatix[i][j]
+                shortest_to_node = node_name[j]
+        added_nodes.append(shortest_to_node)
+        #print(shortest_weight)
+        if shortest_weight is inf or node_name[i] == start_node:
+            l[adjlist._findIndex(current_node)] = None
+        else:
+            l[adjlist._findIndex(current_node)] = shortest_weight
+        #print(shortest_to_node)
+        if shortest_weight is not inf:
+            c[adjlist._findIndex(current_node)] = node_name[i]
+        elif node_name[i] == start_node:
+            c[adjlist._findIndex(current_node)] = None
+        else:
+            c[adjlist._findIndex(current_node)] = None
+        current_node = shortest_to_node
+    
     return l, c
 
 
