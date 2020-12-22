@@ -227,14 +227,15 @@ class AdjacencyList:
         Deletes all edges towards the node named `name`.
         Returns an adjacency list head.
         '''
+        # delets all the edges to that node 
+
         if self.is_empty():
             return self.head()
-        if name != self.head().edges().dst():
-            self.tail().delete_edges(name)
-        else:
-            self.head().edges().set_dst(None)
+        if self.head().edges().find(name):
+            self.head().set_edges(self.head().edges().delete(name))
 
-        return self.head()
+        return self.head().cons(self.head().tail().delete_edges(name))
+        
 
     def find_edge(self, src, dst):
         '''
