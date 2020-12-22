@@ -202,19 +202,8 @@ class AdjacencyList:
             return self.head()
 
         if src == self.head().name():
-            # om dst inte finns skappar vi en ny edge
-            if not self.head().find_edge(self.head().name(), dst):
-                self.set_edges(self.edges().add(dst, weight))
-                return self.head()
-
-            else:
-                # om den finns uppdaterar letar vi fram edgen som har samma dst och uppdatera denns vikt
-                edge = self.head().edges()
-                while dst != edge.dst():
-                    edge = self.head().tail()
-                edge.set_weight(weight)
-                return self.head()
-
+            return self.set_edges(self.edges().add(dst, weight))
+             
         else:
             return self.cons(self.tail()._add_edge(src, dst, weight))
 
@@ -458,12 +447,13 @@ class Edge:
 
         Returns an edge head.
         '''
-        #
-        #   Ändring av vikt görs i _add_node() metoden
-        #
+
         if self.is_empty():
             self.__init__(dst, weight)
             return self.head()  # original
+        # checks if dst == own name to change the weight
+        elif dst == self.head().dst():
+            return self.set_weight(weight)
 
         # checks if 'name' < self.head().name()
         elif dst < self.head().dst():
@@ -475,9 +465,8 @@ class Edge:
             newNode = Edge(dst, weight)
 
             # return newNode as head() an prev head as new tail
-            newNode.head().cons(nextNode)
-            return newNode.head()
-
+            return newNode.head().cons(nextNode)
+           
         else:
             return self.head().cons(self.tail().add(dst, weight))
 
