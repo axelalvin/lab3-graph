@@ -112,12 +112,7 @@ class AdjacencyList:
         is a member, its info-field is updated based on `info`.
         Returns an adjacency list head.
         '''
-        # todo: implement a way to add node before existing nodes
-        # without that node inheriting all info and edge-functionalities
-        # right now new node is added to the back of list
-
-        # if node is already in list, update it's info
-        # PROBLEM: never gets here if node 'name' already is a member
+ 
         if self.find_node(name):
             if name == self.head().name():
                 self.head().set_info(info)
@@ -190,6 +185,7 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
+        #print("add_edge")
         if not self.find_node(dst):
             return self.head()
         return self._add_edge(src, dst, weight)
@@ -203,8 +199,11 @@ class AdjacencyList:
 
         Pre: `dst` is a member of this adjacency list.
         '''
+        #print("_add_edge")
+        if self.is_empty():
+            return self.head()
 
-        if src is self.head().name():
+        if src == self.head().name():
             # om dst inte finns skappar vi en ny edge
             if not self.head().find_edge(self.head().name(), dst):
                 self.set_edges(self.edges().add(dst, weight))
@@ -213,9 +212,11 @@ class AdjacencyList:
             else:
                 # om den finns uppdaterar letar vi fram edgen som har samma dst och uppdatera denns vikt
                 edge = self.head().edges()
-                while dst is not edge.dst():
-                    edge = self.head().edges().tail()
+                while dst != edge.dst():
+                    edge = self.head().tail()
                 edge.set_weight(weight)
+                return self.head()
+
         else:
             return self.cons(self.tail()._add_edge(src, dst, weight))
 
@@ -254,7 +255,7 @@ class AdjacencyList:
         '''
         if self.is_empty():
             return False
-        if src is self.head().name() and self.head().edges().find(dst):
+        if src == self.head().name() and self.head().edges().find(dst):
             return True
         else:
             return self.tail().find_edge(src, dst)
@@ -462,10 +463,10 @@ class Edge:
         #
         #   Ändring av vikt görs i _add_node() metoden
         #
-        print("runs")
+        #print("runs")
         if self.is_empty():
             self.__init__(dst, weight)
-            print("added")
+            #print("added")
             return self.head()  # original
 
         # checks if 'name' < self.head().name()
@@ -479,7 +480,7 @@ class Edge:
 
             # return newNode as head() an prev head as new tail
             newNode.head().cons(nextNode)
-            print(newNode.tail().dst())
+            #print(newNode.tail().dst())
             return newNode.head()
 
         else:
