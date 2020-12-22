@@ -143,7 +143,6 @@ class TestAdjacencyList(unittest.TestCase):
                     l = l.add_node(name)
                 for (src, dst, weight) in in_edges:
                     l = l.add_edge(src, dst, weight)
-                #print(l.list_edges(), want, "Added nodes {}, added edges {}".format(in_nodes, in_edges)) # min egna grej ta bort sen 
                 self.assertEqual(l.list_edges(), want, "Added nodes {}, added edges {}".format(in_nodes, in_edges))
     
     def test_add_edge_update(self):

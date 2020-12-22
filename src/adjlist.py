@@ -185,7 +185,6 @@ class AdjacencyList:
 
         Returns an adjacency list head.
         '''
-        #print("add_edge")
         if not self.find_node(dst):
             return self.head()
         return self._add_edge(src, dst, weight)
@@ -199,7 +198,6 @@ class AdjacencyList:
 
         Pre: `dst` is a member of this adjacency list.
         '''
-        #print("_add_edge")
         if self.is_empty():
             return self.head()
 
@@ -463,10 +461,8 @@ class Edge:
         #
         #   Ändring av vikt görs i _add_node() metoden
         #
-        #print("runs")
         if self.is_empty():
             self.__init__(dst, weight)
-            #print("added")
             return self.head()  # original
 
         # checks if 'name' < self.head().name()
@@ -480,7 +476,6 @@ class Edge:
 
             # return newNode as head() an prev head as new tail
             newNode.head().cons(nextNode)
-            #print(newNode.tail().dst())
             return newNode.head()
 
         else:
