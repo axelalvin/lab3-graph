@@ -20,11 +20,6 @@ def floyd(adjlist):
     n = adjlist.node_cardinality()
     distanceMatix = adjlist.adjacency_matrix()
 
-    # algoritmen fungerar bara om det inte finns några loopar med sig själva
-    if adjlist.self_loops() > 0:
-        print("contains loops")
-        return [[]]
-
     # puting zeros in loops
     for index in range(n):
         distanceMatix[index][index] = 0
@@ -33,9 +28,8 @@ def floyd(adjlist):
     for k in range(n):
         for i in range(n):
             for j in range(n):
-                if i != j:
-                    distanceMatix[i][j] = min(
-                        distanceMatix[i][j], distanceMatix[i][k] + distanceMatix[k][j])
+                distanceMatix[i][j] = min(
+                    distanceMatix[i][j], distanceMatix[i][k] + distanceMatix[k][j])
 
     return distanceMatix
 
@@ -46,35 +40,18 @@ def warshall(adjlist):
 
     Pre: adjlist is not empty.
     '''
+    # beacuse floyd and warshall using the same algorithm we can use floyd and just change the results
+
     n = adjlist.node_cardinality()
-    distanceMatix = adjlist.adjacency_matrix()
 
-    # algoritmen fungerar bara om det inte finns några loopar med sig själva
-    if adjlist.self_loops() > 0:
-        print("contains loops")
-        return [[]]
+    floydMatix = floyd(adjlist)
 
-    # puting zeros in loops
-    for index in range(n):
-        distanceMatix[index][index] = True
+    for i in range(n):
+        for j in range(n):
+            floydMatix[i][j] = False if floydMatix[i][j] == inf else True
 
-    # the algoritmen
-    for k in range(n):
-        for i in range(n):
-            for j in range(n):
-                distanceMatix[i][j] = min(
-                    distanceMatix[i][j], distanceMatix[i][k] + distanceMatix[k][j])
-                if distanceMatix[i][j] is not inf and i != j:
-                    distanceMatix[i][j] = True
-    
-    for k in range(n):
-        for i in range(n):
-            for j in range(n):
-                if distanceMatix[i][j] == inf:
-                    distanceMatix[i][j] = False
-                
 
-    return distanceMatix
+    return floydMatix
 
 
 def my_min(sequence):
@@ -93,11 +70,6 @@ def extract_min(Q):
         if m[1] == min:
             v = Q.pop(index)
     return v , Q
-
-def findeIndexInAlist(_list, des):
-    for index, name in enumerate(_list):
-            if name[0].name() == des:
-                return index
 
 def _findIndex(_list, des):
 
@@ -156,7 +128,6 @@ def dijkstra(adjlist, start_node):
     node = adjlist.head()
     index = node._findIndex(start_node)
 
-
     #Init-Single-Source(adjlist, startnode)
     while not node.is_empty():
         d.append(inf)
@@ -180,7 +151,8 @@ def dijkstra(adjlist, start_node):
                 e[indexV] = src
                 
                 #Decrease-Key(Q,v,d[v])
-                indexQ = findeIndexInAlist(Q, dst) 
+                                    # creating a list that only contains the name of the nodes in Q
+                indexQ = _findIndex([Q[x][0].name() for x in range(len(Q))], dst) 
                 Q[indexQ][1] = d[indexV]
 
     d[index] = e[index] = None
