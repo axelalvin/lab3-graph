@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 from math import inf
 
 
-def warshall(adjlist):
+def floyd(adjlist):
     '''
     Returns an NxN matrix that contains the result of running Warshall's
     algorithm.
@@ -33,13 +33,14 @@ def warshall(adjlist):
     for k in range(n):
         for i in range(n):
             for j in range(n):
-                distanceMatix[i][j] = min(
-                    distanceMatix[i][j], distanceMatix[i][k] + distanceMatix[k][j])
+                if i != j:
+                    distanceMatix[i][j] = min(
+                        distanceMatix[i][j], distanceMatix[i][k] + distanceMatix[k][j])
 
     return distanceMatix
 
 
-def floyd(adjlist):
+def warshall(adjlist):
     '''
     Returns an NxN matrix that contains the result of running Floyd's algorithm.
 
@@ -55,7 +56,7 @@ def floyd(adjlist):
 
     # puting zeros in loops
     for index in range(n):
-        distanceMatix[index][index] = 0
+        distanceMatix[index][index] = True
 
     # the algoritmen
     for k in range(n):
@@ -63,8 +64,15 @@ def floyd(adjlist):
             for j in range(n):
                 distanceMatix[i][j] = min(
                     distanceMatix[i][j], distanceMatix[i][k] + distanceMatix[k][j])
-                if distanceMatix[i][j] is not inf:
+                if distanceMatix[i][j] is not inf and i != j:
                     distanceMatix[i][j] = True
+    
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                if distanceMatix[i][j] == inf:
+                    distanceMatix[i][j] = False
+                
 
     return distanceMatix
 
